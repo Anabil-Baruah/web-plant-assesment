@@ -14,17 +14,20 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
 app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(express.json());
 
+// Cache connection across serverless invocations
+let isConnected = false;
+app.use(async (req, res, next) => {
+  if (!isConnected) {
+    await mongoose.connect(process.env.MONGODB_URI);
+    isConnected = true;
+  }
+  next();
+});
+
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/projects', require('./routes/projects'));
 app.use('/api/tasks', require('./routes/tasks'));
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => {
-    console.log('MongoDB connected');
-    app.listen(process.env.PORT || 5000, () =>
-      console.log(`Server running on port ${process.env.PORT || 5000}`)
-    );
-  })
-  .catch(err => { console.error(err); process.exit(1); });
+module.exports = app;
