@@ -1,83 +1,64 @@
 # TaskBoard — Backend
 
-Express.js REST API with MongoDB for the Mini Project Manager application.
+Express.js REST API with MongoDB for the Mini Project Manager.
 
 ## Tech Stack
 
 - **Runtime**: Node.js
 - **Framework**: Express.js
 - **Database**: MongoDB + Mongoose
-- **Auth**: JSON Web Tokens (jsonwebtoken) + bcryptjs
-- **Dev**: nodemon
-
-## Prerequisites
-
-- Node.js 18+
-- MongoDB running locally on port 27017 (or a MongoDB Atlas URI)
+- **Auth**: JWT + bcryptjs
 
 ## Setup
 
-1. Install dependencies (already done):
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+cp .env.example .env
+npm run dev
+```
 
-2. Create your `.env` file (copy from `.env.example`):
-   ```bash
-   cp .env.example .env
-   ```
+Runs at `http://localhost:5000`.
 
-3. Edit `.env` with your values:
-   ```
-   PORT=5000
-   MONGODB_URI=mongodb://localhost:27017/mini-project-manager
-   JWT_SECRET=supersecretjwtkey123456789
-   JWT_EXPIRE=7d
-   ```
+## Environment Variables
 
-4. Start development server:
-   ```bash
-   npm run dev
-   ```
-
-5. Or start production server:
-   ```bash
-   npm start
-   ```
-
-The API will be available at `http://localhost:5000`.
+```
+PORT=5000
+MONGODB_URI=mongodb://localhost:27017/mini-project-manager
+JWT_SECRET=your_secret_key
+JWT_EXPIRE=7d
+```
 
 ## API Endpoints
 
 ### Auth
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| POST | `/api/auth/register` | Register a new user | No |
-| POST | `/api/auth/login` | Login and get token | No |
-| GET | `/api/auth/me` | Get current user | Yes |
+| Method | Endpoint | Auth |
+|--------|----------|------|
+| POST | `/api/auth/register` | No |
+| POST | `/api/auth/login` | No |
+| GET | `/api/auth/me` | Yes |
 
 ### Projects
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| GET | `/api/projects` | List all projects | Yes |
-| POST | `/api/projects` | Create a project | Yes |
-| GET | `/api/projects/:id` | Get a single project | Yes |
-| PUT | `/api/projects/:id` | Update a project | Yes |
-| DELETE | `/api/projects/:id` | Delete a project + tasks | Yes |
+| Method | Endpoint | Auth |
+|--------|----------|------|
+| GET | `/api/projects` | Yes |
+| POST | `/api/projects` | Yes |
+| GET | `/api/projects/:id` | Yes |
+| PUT | `/api/projects/:id` | Yes |
+| DELETE | `/api/projects/:id` | Yes |
 
 ### Tasks
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| GET | `/api/tasks/:projectId/tasks` | List tasks for a project | Yes |
-| POST | `/api/tasks/:projectId/tasks` | Create a task | Yes |
-| PUT | `/api/tasks/:projectId/tasks/:taskId` | Update a task | Yes |
-| DELETE | `/api/tasks/:projectId/tasks/:taskId` | Delete a task | Yes |
+| Method | Endpoint | Auth |
+|--------|----------|------|
+| GET | `/api/tasks/:projectId/tasks` | Yes |
+| POST | `/api/tasks/:projectId/tasks` | Yes |
+| PUT | `/api/tasks/:projectId/tasks/:taskId` | Yes |
+| DELETE | `/api/tasks/:projectId/tasks/:taskId` | Yes |
 
 ## Project Structure
 
 ```
 src/
-├── server.js              # App entry point
+├── server.js
 ├── models/
 │   ├── User.js
 │   ├── Project.js
@@ -91,5 +72,5 @@ src/
 │   ├── projects.js
 │   └── tasks.js
 └── middleware/
-    └── auth.js            # JWT protect middleware
+    └── auth.js
 ```

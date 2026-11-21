@@ -1,24 +1,19 @@
 # TaskBoard — Mini Project Manager
 
-A full-stack project and task management application built with Express.js and Next.js.
-
-## Overview
-
-TaskBoard lets you create projects, organize tasks into a Kanban board (To Do / In Progress / Done), filter by status and due date, and track overall progress — all behind a clean, modern UI.
+A full-stack project and task management app built with Express.js and Next.js.
 
 ## Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
-| Frontend Framework | Next.js 14 (App Router) |
-| Frontend Language | TypeScript |
+| Frontend | Next.js 14 (App Router) |
+| Language | TypeScript |
 | Styling | Tailwind CSS |
 | State Management | Redux Toolkit + React Redux |
 | HTTP Client | Axios |
-| Backend Framework | Express.js |
+| Backend | Express.js |
 | Database | MongoDB + Mongoose |
-| Authentication | JWT (jsonwebtoken) + bcryptjs |
-| Dev Server | nodemon |
+| Auth | JWT + bcryptjs |
 
 ## Folder Structure
 
@@ -41,7 +36,6 @@ web-plant-assesment/
 │   │   │   └── tasks.js
 │   │   └── middleware/
 │   │       └── auth.js
-│   ├── .env
 │   ├── .env.example
 │   └── package.json
 └── frontend/
@@ -59,59 +53,38 @@ web-plant-assesment/
         │       │   └── [id]/page.tsx
         │       └── tasks/page.tsx
         ├── components/
-        │   ├── Providers.tsx
-        │   └── Sidebar.tsx
         ├── store/
-        │   ├── index.ts
-        │   ├── authSlice.ts
-        │   ├── projectSlice.ts
-        │   ├── taskSlice.ts
-        │   └── hooks.ts
         └── lib/
             └── api.ts
 ```
 
-## Setup Instructions
+## Setup
 
-### 1. Prerequisites
-
-- Node.js 18+
-- MongoDB running locally (`mongod`) or a MongoDB Atlas connection string
-
-### 2. Backend Setup
+### Backend
 
 ```bash
 cd backend
-
-# Dependencies are already installed
-# Create .env from example:
 cp .env.example .env
-
-# Edit .env if needed, then start:
 npm run dev
 ```
 
-The API runs at `http://localhost:5000`.
+Runs at `http://localhost:5000`.
 
-### 3. Frontend Setup
+### Frontend
 
 ```bash
 cd frontend
-
-# Dependencies are already installed
 npm run dev
 ```
 
-The app runs at `http://localhost:3000`.
+Runs at `http://localhost:3000`.
 
 ## Environment Variables
-
-Create `backend/.env` with the following (see `.env.example`):
 
 ```
 PORT=5000
 MONGODB_URI=mongodb://localhost:27017/mini-project-manager
-JWT_SECRET=supersecretjwtkey123456789
+JWT_SECRET=your_secret_key
 JWT_EXPIRE=7d
 ```
 
@@ -121,35 +94,34 @@ JWT_EXPIRE=7d
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | POST | `/api/auth/register` | Register a new user |
-| POST | `/api/auth/login` | Login and receive JWT |
-| GET | `/api/auth/me` | Get authenticated user |
+| POST | `/api/auth/login` | Login and get JWT |
+| GET | `/api/auth/me` | Get current user |
 
-### Projects (all require Bearer token)
+### Projects (Bearer token required)
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/projects` | List user's projects (with task counts) |
+| GET | `/api/projects` | List projects |
 | POST | `/api/projects` | Create a project |
-| GET | `/api/projects/:id` | Get a single project |
+| GET | `/api/projects/:id` | Get a project |
 | PUT | `/api/projects/:id` | Update a project |
-| DELETE | `/api/projects/:id` | Delete project + all its tasks |
+| DELETE | `/api/projects/:id` | Delete project and its tasks |
 
-### Tasks (all require Bearer token)
+### Tasks (Bearer token required)
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/tasks/:projectId/tasks` | List tasks (supports `?status=` and `?dueDate=` filters) |
+| GET | `/api/tasks/:projectId/tasks` | List tasks (`?status=` `?dueDate=`) |
 | POST | `/api/tasks/:projectId/tasks` | Create a task |
 | PUT | `/api/tasks/:projectId/tasks/:taskId` | Update a task |
 | DELETE | `/api/tasks/:projectId/tasks/:taskId` | Delete a task |
 
 ## Features
 
-- **Authentication** — Register / login with JWT stored in localStorage
-- **Projects** — Create, list, search, delete projects with task progress bars
-- **Kanban Board** — Three-column board (To Do, In Progress, Done) per project
-- **Task Management** — Create, edit, delete tasks with title, description, status, due date
-- **Inline Status Updates** — Change task status directly from the Kanban card
-- **Filtering** — Filter tasks by status and due date
-- **Overdue Indicators** — Past-due tasks highlighted in red
-- **All Tasks View** — Table view of every task across all projects
-- **Dashboard Stats** — Total projects, total tasks, completed tasks at a glance
-- **Responsive Sidebar** — Sticky sidebar with active route highlighting and user info
+- Register / login with JWT stored in localStorage
+- Create and manage projects with progress tracking
+- Kanban board per project (To Do / In Progress / Done)
+- Create, edit, delete tasks with title, description, status and due date
+- Change task status inline from the board
+- Filter tasks by status and due date
+- Overdue tasks highlighted in red
+- All tasks view across every project
+- Dashboard with project and task counts
