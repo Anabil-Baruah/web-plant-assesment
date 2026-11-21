@@ -1,0 +1,28 @@
+# dependencies
+node_modules
+**/node_modules
+
+# env files - NEVER commit these
+.env
+**/.env
+.env.*
+**/.env.*
+
+# build outputs
+.next/
+out/
+build/
+dist/
+
+# misc
+.DS_Store
+*.pem
+*.log
+npm-debug.log*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
